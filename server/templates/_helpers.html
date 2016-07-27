@@ -1,0 +1,8 @@
+
+{% macro js(filename, scope=None, external=false) -%}
+<script type="text/javascript" src="{{ external and filename or url_for(scope and ('%s.static' % scope) or 'static', filename=filename) }}"></script>
+{%- endmacro %}
+
+{%- macro css(filename, scope=None, external=false) -%}
+<link rel="stylesheet" type="text/css" href="{{ external and filename or url_for(scope and ('%s.static' % scope) or 'static', filename=filename) }}" />
+{%- endmacro %}

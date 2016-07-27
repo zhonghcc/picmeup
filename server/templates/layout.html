@@ -1,0 +1,70 @@
+{%- import '_helpers.html' as t -%}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>{% block title %}{% endblock %} - picmeup</title>
+
+    <!-- 全局样式 -->
+    {{ t.css('lib/bootstrap/css/bootstrap.min.css') }}
+    {{ t.css('css/styles.css') }}
+
+    <!-- 页面样式 -->
+    {% block styles %}
+    {{ t.css('css/%s.css' % request.blueprint) }}
+    {% endblock %}
+
+
+</head>
+<body>
+<div class="navbar">
+    <div class="navbar-inner">
+        <a class="brand" href="/">PicMeUp</a>
+        <ul class="nav">
+            <li><a href="{{ url_for('home.index') }}">主页</a></li>
+            <li><a href="{{ url_for('user.profile') }}">个人中心</a></li>
+        </ul>
+        <form class="navbar-search pull-left" action="">
+            <input type="text" class="search-query input-large" placeholder="Search"/>
+        </form>
+        <ul class="nav pull-right">
+
+            <li class="dropdown">
+                {# TODO: Cache avatar url to speed up page loading #}
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <b class="caret"></b></a>
+
+                <ul class="dropdown-menu">
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="container">
+    <div class="flash">
+        {% for category, message in get_flashed_messages(with_categories=true) %}
+        <div class="alert alert-{{ category | default('info') }} fade in">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            {{ message | safe }}
+        </div>
+        {% endfor %}
+    </div>
+
+
+    {% block content %}{% endblock %}
+    <div class="footer">{% block footer %}{% endblock %}</div>
+</div>
+
+<!-- 全局脚本 -->
+{{ t.js('lib/jquery-1.8.3.min.js') }}
+{{ t.js('lib/bootstrap/js/bootstrap.min.js') }}
+{{ t.js('js/commons.js') }}
+{{ t.js('js/application.js') }}
+
+<!-- 页面脚本 -->
+{% block scripts %}
+
+{{ t.js('js/%s.js' % request.blueprint) }}
+{% endblock %}
+</body>
+</html>
