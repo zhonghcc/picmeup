@@ -1,7 +1,7 @@
 #-*-coding:utf-8-*-
 
 from server import db
-import datetime
+from datetime import datetime
 
 class Article(db.Model):
     __tablename__ = 'articles'

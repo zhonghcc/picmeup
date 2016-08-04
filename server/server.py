@@ -9,14 +9,16 @@ from flask_login import LoginManager
 from flask_mail import Mail
 from flask_principal import Principal
 
+app = Flask(__name__)
+app.debug_log_format = '[%(levelname)s] %(message)s'
+app.debug = True
+
 db = SQLAlchemy()
 login_manager = LoginManager()
 principals = Principal()
 mail = Mail()
 
-app = Flask(__name__)
-app.debug_log_format = '[%(levelname)s] %(message)s'
-app.debug = True
+
 
 # Configuration application
 def config_app(app, config):
@@ -24,16 +26,20 @@ def config_app(app, config):
 
     app.logger.info('Loading config file: %s' % config)
     app.config.from_pyfile(config)
-
+    ctx = app.app_context()
+    ctx.push()
+    #print app.config['SQLALCHEMY_DATABASE_URI']
     app.logger.info('Setting up extensions...')
     db.init_app(app)
+
+    #print db.get_uri()
     config_principal(app)
     #oid.init_app(app)
     login_manager.init_app(app)
     #babel.init_app(app)
     #mail.init_app(app)
     register_blueprints(app)
-    app.run()
+
 
     # @babel.localeselector
     # def get_locale():
@@ -42,6 +48,31 @@ def config_app(app, config):
 
     # from flask.ext.babel import get_locale
     # app.logger.error(get_locale())
+    with app.app_context():
+        from datetime import  datetime
+        class Article(db.Model):
+            __tablename__ = 'articles'
+
+            id = db.Column(db.Integer, primary_key=True)
+            title = db.Column(db.String(255), nullable=False)
+            desc = db.Column(db.Text,nullable=True)
+
+            created_time = db.Column(db.DateTime, default=datetime.now)
+            updated_time = db.Column(db.DateTime, default=datetime.now)
+            published = db.Column(db.Boolean, nullable=False)
+            order =  db.Column(db.Integer,nullable=True,default=0)
+        import models
+        from models import User
+        from models import Article
+        #db.create_all()
+        print app.config['SQLALCHEMY_DATABASE_URI']
+        db.create_all()
+        user=models.User()
+        user.username='zhonghcc'
+        user.password='123'
+        db.session.add(user)
+        print models.User.query.all()
+        print app.config['SQLALCHEMY_DATABASE_URI']
 
     @app.after_request
     def after_request(response):
@@ -53,8 +84,9 @@ def config_app(app, config):
         return response
 
     with app.test_request_context():
-        print url_for('index')
-        print url_for('user.profile')
+        pass
+        #print url_for('index')
+        #print url_for('user.profile')
 
 def register_blueprints(app):
     app.logger.info('Register blueprints...')
@@ -98,3 +130,4 @@ def config_principal(app):
 
 if __name__ == '__main__':
     config_app(app,'config.cfg')
+    app.run()

@@ -3,11 +3,11 @@
 from server import db
 from datetime import datetime
 
-class User(db.Model):
-    __tablename__ = 'users'
+class Collection(db.Model):
+    __tablename__ = 'collections'
 
-    username=db.Column(db.String(255),primary_key=True)
-    password=db.Column(db.String(512),nullable=False)
+    id=db.Column(db.Integer,primary_key=True)
+    name = db.Column(db.String(255),nullable=False)
 
     created_time = db.Column(db.DateTime, default=datetime.now)
     updated_time = db.Column(db.DateTime, default=datetime.now)
