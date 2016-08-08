@@ -50,24 +50,15 @@ def config_app(app, config):
     # app.logger.error(get_locale())
     with app.app_context():
         from datetime import  datetime
-        class Article(db.Model):
-            __tablename__ = 'articles'
 
-            id = db.Column(db.Integer, primary_key=True)
-            title = db.Column(db.String(255), nullable=False)
-            desc = db.Column(db.Text,nullable=True)
-
-            created_time = db.Column(db.DateTime, default=datetime.now)
-            updated_time = db.Column(db.DateTime, default=datetime.now)
-            published = db.Column(db.Boolean, nullable=False)
-            order =  db.Column(db.Integer,nullable=True,default=0)
         import models
         from models import User
         from models import Article
         #db.create_all()
         print app.config['SQLALCHEMY_DATABASE_URI']
+        User()
         db.create_all()
-        user=models.User()
+        user=User()
         user.username='zhonghcc'
         user.password='123'
         db.session.add(user)
