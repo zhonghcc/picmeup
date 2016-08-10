@@ -1,0 +1,7 @@
+With the environment in place we can create a new revision, using alembic revision:
+
+$ alembic revision -m "create account table"
+
+Running our First Migration
+
+$ alembic upgrade head
