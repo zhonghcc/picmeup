@@ -1,2 +1,7 @@
 {% extends "layout.html" %}
 {% block title %}3{% endblock %}
+{% block content %}
+{% for article in articles %}
+<p>{{article.title}}</b></p>
+{% endfor %}
+{% endblock %}

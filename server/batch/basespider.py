@@ -32,8 +32,10 @@ class BaseSpider():
             app.logger.debug(url)
             html = self.getHtml(url)
             result = self.processSingle(url,html)
-            if result==None:
+            if result==False:
                 break
+            elif result==None:
+                url = self.getNext()
             else:
                 self.saveAriticle()
                 url = self.getNext()
@@ -55,14 +57,16 @@ class BaseSpider():
         count = db.session.query(Article).filter(Article.pic_url==img_url).count()
         if count>0:
             self.debug(img_url+'already downloaded')
-            return True
+            return None
+
         path = self.getBasePath()+self.getSource()
         if not os.path.exists(path):   #路径不存在时创建一个
             os.makedirs(path)
         fullPath = path+'/'+filename
         if os.path.exists(fullPath):
             self.debug(fullPath+'already existed')
-            return True
+            return None
+
         image = urllib.urlretrieve(img_url,fullPath)
         self.genThumbnail(fullPath)
 

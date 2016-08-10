@@ -30,10 +30,10 @@ class Minimography(basespider.BaseSpider):
             pic_url = imglist[0][0:-1]
 
             self.article.pic_url=pic_url
-            self.saveImage(pic_url,self.origName)
+            return self.saveImage(pic_url,self.origName)
         except Exception,e:
             self.error(e)
-            return None
+            return False
 
         return True
 

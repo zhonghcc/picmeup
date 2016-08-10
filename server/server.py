@@ -68,7 +68,7 @@ def config_app(app, config):
         print app.config['SQLALCHEMY_DATABASE_URI']
 
         m=batch.minimography.Minimography()
-        m.process()
+        #m.process()
 
     @app.after_request
     def after_request(response):
