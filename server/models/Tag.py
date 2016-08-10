@@ -11,6 +11,8 @@ class Tag(db.Model):
     description = db.Column(db.Text,nullable=True)
     article_id = db.Column(db.Integer,nullable=True)
     author_id = db.Column(db.Integer,nullable=True)
+
     created_time = db.Column(db.DateTime, default=datetime.now)
     updated_time = db.Column(db.DateTime, default=datetime.now)
-    status = db.Column(db.Integer, nullable=False)
+    status = db.Column(db.Integer, nullable=False,default=1)
+    order =  db.Column(db.Integer,nullable=True,default=0)

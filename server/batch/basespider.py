@@ -1,12 +1,14 @@
 #-*-coding:utf-8-*-
 
-from server import db
+from server import db,app
 from datetime import datetime
 from models import Article
 import urllib
 import re
 import os
 from PIL import Image
+import logging
+import sys
 
 class BaseSpider():
 
@@ -14,25 +16,27 @@ class BaseSpider():
         self.article = Article()
 
     def getBasePath(self):
-        return "/pics/"
+        p = os.path.abspath(os.path.dirname(sys.argv[0]))
+        return p+"/pics/"
 
     def getSource(self):
         pass
 
-    def getFirst(self):
-        pass
 
     def getNext(self):
         pass
 
     def process(self):
-        url = self.getFirst()
+        url = self.getNext()
         while url is not None:
+            app.logger.debug(url)
             html = self.getHtml(url)
             result = self.processSingle(url,html)
             if result==None:
                 break
-            url = self.getNext()
+            else:
+                self.saveAriticle()
+                url = self.getNext()
 
     def saveAriticle(self):
         db.session.add(self.article)
@@ -46,35 +50,31 @@ class BaseSpider():
         html = page.read()
         return html
 
-    def downloadImg(html):
-        reg = r'src="(.+?\.jpg)" pic_ext'
-        imgre = re.compile(reg)
-        imglist = re.findall(imgre, html)
-        #定义文件夹的名字
-        t = time.localtime(time.time())
-        foldername = str(t.__getattribute__("tm_year"))+"-"+str(t.__getattribute__("tm_mon"))+"-"+str(t.__getattribute__("tm_mday"))
-        picpath = 'D:\\ImageDownload\\%s' % (foldername) #下载到的本地目录
-
-        if not os.path.exists(picpath):   #路径不存在时创建一个
-            os.makedirs(picpath)
-        x = 0
-        for imgurl in imglist:
-            target = picpath+'\\%s.jpg' % x
-            print 'Downloading image to location: ' + target + '\nurl=' + imgurl
-            image = urllib.urlretrieve(imgurl, target, schedule)
-            x += 1
-        return image;
-
     def saveImage(self,img_url,filename):
 
+        count = db.session.query(Article).filter(Article.pic_url==img_url).count()
+        if count>0:
+            self.debug(img_url+'already downloaded')
+            return True
         path = self.getBasePath()+self.getSource()
         if not os.path.exists(path):   #路径不存在时创建一个
             os.makedirs(path)
         fullPath = path+'/'+filename
-        image = urllib.urlretrieve(img_url,path)
+        if os.path.exists(fullPath):
+            self.debug(fullPath+'already existed')
+            return True
+        image = urllib.urlretrieve(img_url,fullPath)
         self.genThumbnail(fullPath)
 
 
     def genThumbnail(self,filename):
         pass
 
+    def debug(self,msg):
+        app.logger.debug(msg)
+
+    def info(self,msg):
+        app.logger.info(msg)
+
+    def error(self,msg):
+        app.logger.error(msg)

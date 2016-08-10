@@ -11,7 +11,7 @@ from flask_principal import Principal
 import batch.minimography
 
 app = Flask(__name__)
-app.debug_log_format = '[%(levelname)s] %(message)s'
+app.debug_log_format = '%(asctime)s [%(levelname)s] %(message)s'
 app.debug = True
 
 db = SQLAlchemy()

@@ -17,17 +17,24 @@ class Minimography(basespider.BaseSpider):
         return 'http://minimography.com/%s/' % self.picName
 
     def processSingle(self,url,html):
-        self.article = Article()
-        self.article.origin=self.getSource()
-        self.article.origin_url=url
-        self.origName='minimography_%03.d_orig.jpg'%self.currentidx
-        self.article.file_name=self.origName #minimography_001_orig.jpg
+        try:
+            self.article = Article()
+            self.article.origin=self.getSource()
+            self.article.origin_url=url
+            self.origName='minimography_%03.d_orig.jpg'%self.currentidx
+            self.article.file_name=self.origName #minimography_001_orig.jpg
+            self.article.title=self.getSource()+' '+self.picName
+            reg=r'http://.*download.*\"'
+            imgre = re.compile(reg)
+            imglist = re.findall(imgre, html)
+            pic_url = imglist[0][0:-1]
 
-        reg=r'http://.*download.*\"'
-        imgre = re.compile(reg)
-        imglist = re.findall(imgre, html)
-        pic_url = imglist[0][0:-1]
+            self.article.pic_url=pic_url
+            self.saveImage(pic_url,self.origName)
+        except Exception,e:
+            self.error(e)
+            return None
 
-        self.article.pic_url=pic_url
+        return True
 
 
