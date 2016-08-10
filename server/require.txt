@@ -5,3 +5,4 @@ Flask-Principal
 Flask-Mail
 apscheduler
 alembic
+Image

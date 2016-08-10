@@ -8,7 +8,6 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_mail import Mail
 from flask_principal import Principal
-import batch.minimography
 
 app = Flask(__name__)
 app.debug_log_format = '%(asctime)s [%(levelname)s] %(message)s'
@@ -18,6 +17,7 @@ db = SQLAlchemy()
 login_manager = LoginManager()
 principals = Principal()
 mail = Mail()
+
 
 
 
@@ -67,7 +67,13 @@ def config_app(app, config):
         print models.User.query.all()
         print app.config['SQLALCHEMY_DATABASE_URI']
 
-        m=batch.minimography.Minimography()
+
+        from batch.minimography import Minimography
+        from batch import scheduler
+        scheduler.start()
+
+
+        #m=batch.minimography.Minimography()
         #m.process()
 
     @app.after_request
@@ -123,7 +129,9 @@ def config_principal(app):
 #     return 'Hello World!'
 
 
+def init():
+    config_app(app,'config.cfg')
 
 if __name__ == '__main__':
-    config_app(app,'config.cfg')
+    init()
     app.run()
