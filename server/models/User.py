@@ -13,4 +13,4 @@ class User(db.Model):
 
     created_time = db.Column(db.DateTime, default=datetime.now)
     updated_time = db.Column(db.DateTime, default=datetime.now)
-    published = db.Column(db.Boolean, nullable=False)
+    status = db.Column(db.Integer, nullable=False)

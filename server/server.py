@@ -8,6 +8,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_mail import Mail
 from flask_principal import Principal
+import batch.minimography
 
 app = Flask(__name__)
 app.debug_log_format = '[%(levelname)s] %(message)s'
@@ -41,6 +42,7 @@ def config_app(app, config):
     register_blueprints(app)
 
 
+
     # @babel.localeselector
     # def get_locale():
     #     # 暂时强制返回 zh_CN
@@ -56,14 +58,17 @@ def config_app(app, config):
         from models import Article
         #db.create_all()
         print app.config['SQLALCHEMY_DATABASE_URI']
-        User()
-        db.create_all()
-        user=User()
-        user.username='zhonghcc'
-        user.password='123'
-        db.session.add(user)
+        # User()
+        # db.create_all()
+        # user=User()
+        # user.username='zhonghcc'
+        # user.password='123'
+        # db.session.add(user)
         print models.User.query.all()
         print app.config['SQLALCHEMY_DATABASE_URI']
+
+        m=batch.minimography.Minimography()
+        m.process()
 
     @app.after_request
     def after_request(response):
