@@ -6,7 +6,7 @@ from datetime import datetime
 class ArticleLike(db.Model):
     __tablename__ = 'article_likes'
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True,autoincrement=True)
     article_id=db.Column(db.Integer,nullable=False)
     author_id=db.Column(db.Integer,nullable=False)
 

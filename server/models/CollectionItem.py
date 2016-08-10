@@ -6,7 +6,7 @@ from datetime import datetime
 class CollectionItem(db.Model):
     __tablename__ = 'collection_items'
 
-    id=db.Column(db.Integer,primary_key=True)
+    id=db.Column(db.Integer,primary_key=True,autoincrement=True)
     author_id = db.Column(db.Integer,nullable=False)
     article_id = db.Column(db.Integer,nullable=False)
 
