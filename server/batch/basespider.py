@@ -70,12 +70,13 @@ class BaseSpider():
         if not os.path.exists(path):   #路径不存在时创建一个
             os.makedirs(path)
         fullPath = path+'/'+filename
-        if os.path.exists(fullPath):
-            self.debug(fullPath+'already existed')
-            return None
+        # if os.path.exists(fullPath):
+        #     self.debug(fullPath+'already existed')
+        #     return None
 
         image = urllib.urlretrieve(img_url,fullPath)
         self.genThumbnail(path,filename)
+        return True
 
 
     def genThumbnail(self,path,filename):
