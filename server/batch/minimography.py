@@ -6,10 +6,18 @@ import re
 class Minimography(basespider.BaseSpider):
     def __init__(self):
         self.currentidx = 0
-        indexHtml = self.getHtml()
+        indexHtml = self.getHtml('http://minimography.com/search/')
         reg = r'http://minimography.com/\d{3}/'
         imgre = re.compile(reg)
         self.imglist = re.findall(imgre, indexHtml)
+
+    # def postInit(self):
+    #     for url in self.imglist: #TODO Here is need to improve
+    #         count = self.getDB().session.query(Article).filter(Article.pic_url == url).count()
+    #         if count > 0:
+    #             self.logger.debug(img_url + 'already downloaded')
+    #             self.imglist.remove(url)
+    #     print self.imglist
 
     def getSource(self):
         return "minimography"
@@ -39,7 +47,7 @@ class Minimography(basespider.BaseSpider):
             self.article.pic_url = pic_url
             return self.saveImage(pic_url, self.origName)
         except Exception, e:
-            self.error(e)
+            self.logger.error(e)
             return False
 
         return True
