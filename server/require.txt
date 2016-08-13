@@ -6,3 +6,4 @@ Flask-Mail
 apscheduler
 alembic
 Image
+#yum install MySQL-python
