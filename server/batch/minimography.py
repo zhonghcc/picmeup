@@ -33,6 +33,9 @@ class Minimography(basespider.BaseSpider):
 
     def processSingle(self, url, html):
         try:
+            count = self.getDB().session.query(Article).filter(Article.origin_url == url).count()
+            if count > 0:
+                return True
             self.article = Article()
             self.article.origin = self.getSource()
             self.article.origin_url = url
