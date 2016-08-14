@@ -1,5 +1,6 @@
 body {
     background-color: #fafafa;
+    background: url('../img/classy_fabric_light.jpg');
 }
 
 body > div.navbar > div.navbar-inner {

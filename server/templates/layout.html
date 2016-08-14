@@ -12,6 +12,7 @@
     <!-- 全局样式 -->
     {{ t.css('lib/css/bootstrap.min.css') }}
     {{ t.css('lib/css/thumbnail-gallery.css') }}
+    {{ t.css('css/common.css') }}
 
     <!-- 页面样式 -->
     {% block styles %}
@@ -75,6 +76,8 @@
 <!-- 全局脚本 -->
 {{ t.js('lib/js/jquery.js') }}
 {{ t.js('lib/js/bootstrap.min.js') }}
+{{ t.js('lib/js/masonry.pkgd.min.js') }}
+{{ t.js('lib/js/imagesloaded.pkgd.min.js') }}
 {{ t.js('js/commons.js') }}
 {{ t.js('js/application.js') }}
 
