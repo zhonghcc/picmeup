@@ -10,9 +10,14 @@ blueprint = Blueprint('pic', __name__)
 
 
 @blueprint.route('/<source>/<fileName>/<type>')
-def showPic(source,fileName,type):
+def getPic(source,fileName,type):
     app.logger.debug(id)
     file, ext = os.path.splitext(fileName)
-    return send_from_directory('pics/'+source, file+'_'+type+ext)
+    result =None
+    if type != 'orig':
+        result = send_from_directory('pics/'+source, file+'_'+type+ext)
+    else:
+        result = send_from_directory('pics/'+source, file+ext)
+    return result
 
 
