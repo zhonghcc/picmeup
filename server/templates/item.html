@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<div class="row">
+
+   <h1>{{article.title}}</h1>
+    <hr/>
+
+
+</div>
+<div>
+
+    <img class="" src="/pic/{{article.origin}}/{{article.file_name}}/middle" alt="{{article.title}}">
+</div>
+{% endblock %}

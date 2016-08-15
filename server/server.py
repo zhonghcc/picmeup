@@ -92,9 +92,11 @@ def config_app(app, config):
 
 def register_blueprints(app):
     app.logger.info('Register blueprints...')
-    from views import home,users
+    from views import home,user,item,pic
     app.register_blueprint(home.blueprint,   url_prefix='')
-    app.register_blueprint(users.blueprint,   url_prefix='/users')
+    app.register_blueprint(pic.blueprint,   url_prefix='/pic')
+    app.register_blueprint(user.blueprint, url_prefix='/user')
+    app.register_blueprint(item.blueprint, url_prefix='/item')
     # app.register_blueprint(events.blueprint, url_prefix='/events')
     # app.register_blueprint(articles.blueprint, url_prefix='/articles')
 

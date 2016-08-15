@@ -11,11 +11,6 @@ blueprint = Blueprint('home', __name__)
 
 @blueprint.route('/')
 def index():
-    articleList = Article.query.all()
+    articleList = Article.query.offset(0).limit(20).all()
     return render_template('index.html',articles=articleList)
 
-@blueprint.route('/pic/<source>/<fileName>')
-def showPic(source,fileName):
-    app.logger.debug(id)
-    file, ext = os.path.splitext(fileName)
-    return send_from_directory('pics/'+source, file+'_small'+ext)

@@ -15,9 +15,11 @@
 <div class="grid">
 {% for article in articles %}
 
+    <a href="{{url_for('item.detail',id=article.id)}}">
     <div class="grid-item" href="#">
-        <img class="" src="/pic/{{article.origin}}/{{article.file_name}}" alt="">
+        <img class="" src="/pic/{{article.origin}}/{{article.file_name}}/small" alt="{{article.title}}">
     </div>
+    </a>
 
 
 {% endfor %}
