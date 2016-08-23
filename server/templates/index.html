@@ -9,27 +9,26 @@
             PicUp.me 是一个免费商业图片分享网站，这里收集了40余个网站超过30000副免费图片
             (<a href="https://creativecommons.org/publicdomain/zero/1.0/deed.zh" target="_blank">Creative Commons Zero</a>)。
             <br/>你可以下载这些高清大图，或对这些照片添加标签、收藏、分享</span>
-        <span id="totalcount">{{totalcount}}</span>
 
     </div>
 
 
 </div>
 <div style="margin-top:150px;"></div>
+<nav id="page-nav">
+    <a href="{{url_for('home.page',pageid=2)}}"></a>
+</nav>
 <div class="grid">
 {% for article in articles %}
 
-    <a href="{{url_for('item.detail',id=article.id)}}">
-    <div class="grid-item" href="#">
+    <a class="grid-item-a" href="{{url_for('item.detail',id=article.id)}}">
+    <div class="grid-item">
         <img class="" src="{{url_for('pic.getPic',source=article.origin,fileName=article.file_name,type='small')}}" alt="{{article.title}}">
     </div>
     </a>
 
 
 {% endfor %}
-    <nav id="page-nav">
-        <a href="{{url_for('home.page',pageid=2)}}"></a>
-    </nav>
 </div>
 <style>
 @font-face {
@@ -49,4 +48,10 @@ src: url('/static/font/Pacifico.ttf');
     }
 
 </style>
+<script>
+
+    var totalcount={{totalcount}};
+    var totalpage=(totalcount/20)+1;
+    var readedpage = {{readedpage}};
+</script>
 {% endblock %}

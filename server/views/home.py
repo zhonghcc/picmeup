@@ -14,7 +14,7 @@ blueprint = Blueprint('home', __name__)
 def index():
     articleList = Article.query.offset(0).limit(20).all()
     totalcount = Article.query.count()
-    return render_template('index.html',articles=articleList,totalcount =totalcount)
+    return render_template('index.html',articles=articleList,totalcount =totalcount,readedpage=1)
 
 @blueprint.route('/page/<int:pageid>')
 def page(pageid):
@@ -23,7 +23,9 @@ def page(pageid):
     app.logger.debug(start)
     articleList = Article.query.offset(start).limit(20).all()
     app.logger.debug(articleList)
-    return jsonify([i.serialize for i in articleList])
+    totalcount = Article.query.count()
+    return render_template('index.html',articles=articleList,totalcount=totalcount,readedpage=pageid)
+    #return jsonify([i.serialize for i in articleList])
 
 @blueprint.route('/about')
 def about():
