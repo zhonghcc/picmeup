@@ -1,5 +1,6 @@
 import basespider
 from models import Article
+from utils.constant import *
 import re
 
 
@@ -20,7 +21,7 @@ class Minimography(basespider.BaseSpider):
     #     print self.imglist
 
     def getSource(self):
-        return "minimography"
+        return ORI_MINIMOGRAPHY
 
     def getNext(self):
         url = self.imglist.pop(0)

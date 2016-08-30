@@ -63,4 +63,6 @@ def upgrade():
 
 def downgrade():
     op.drop_table('accounts')
+    op.drop_table('tags')
+    op.drop_table('users')
 

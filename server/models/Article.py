@@ -14,14 +14,13 @@ class Article(db.Model):
     file_name = db.Column(db.String(255),nullable=True)
     origin_url = db.Column(db.Text,nullable=True)
     pic_url = db.Column(db.Text,nullable=True)
+    author_id = db.Column(db.Integer,nullable=True)
 
     created_time = db.Column(db.DateTime, default=datetime.now)
     updated_time = db.Column(db.DateTime, default=datetime.now)
     status = db.Column(db.Integer, nullable=False,default=1)
     order =  db.Column(db.Integer,nullable=True,default=0)
 
-    def __repr__(self):
-        return self.serialize
 
     @property
     def serialize(self):
