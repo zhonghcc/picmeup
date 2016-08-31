@@ -2,6 +2,8 @@
 
 from server import db
 from datetime import datetime
+import json
+import models
 
 class User(db.Model):
     __tablename__ = 'users'
@@ -23,6 +25,10 @@ class User(db.Model):
     updated_time = db.Column(db.DateTime, default=datetime.now)
     status = db.Column(db.Integer, nullable=False)
 
+
+    def __repr__(self):
+        return json.dumps(self.serialize)
+
     @property
     def serialize(self):
         return {
@@ -30,6 +36,6 @@ class User(db.Model):
             'username'      :   self.username,
             'nickname'      :   self.nickname,
             'description'   :   self.description,
-            'last_log_time' :   self.last_log_time,
-            'created_time'  :   self.created_time,
+            'last_log_time' :   models.dump_datetime(self.last_log_time),
+            'created_time'  :   models.dump_datetime(self.created_time),
         }

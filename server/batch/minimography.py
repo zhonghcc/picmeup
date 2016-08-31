@@ -89,8 +89,8 @@ class Minimography(basespider.BaseSpider):
                 author.role = ROLE_AUTHOR
 
                 self.saveAuthor(author)
-                self.article.author_id = author.id
 
+            self.article.author_id = author.id
             self.article.pic_url = pic_url
             return self.saveImage(pic_url, self.origName)
         except Exception, e:

@@ -3,6 +3,7 @@
 from server import db
 from datetime import datetime
 import models
+import json
 
 class Article(db.Model):
     __tablename__ = 'articles'
@@ -21,6 +22,8 @@ class Article(db.Model):
     status = db.Column(db.Integer, nullable=False,default=1)
     order =  db.Column(db.Integer,nullable=True,default=0)
 
+    def __repr__(self):
+        return json.dumps(self.serialize)
 
     @property
     def serialize(self):
