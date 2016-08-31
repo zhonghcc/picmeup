@@ -17,6 +17,7 @@ class User(db.Model):
     # is this user from other site?
     is_imported = db.Column(db.Boolean,nullable=True)
     last_log_time=db.Column(db.DateTime,nullable=True)
+    role = db.Column(db.String(255),nullable=True)
 
     created_time = db.Column(db.DateTime, default=datetime.now)
     updated_time = db.Column(db.DateTime, default=datetime.now)

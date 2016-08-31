@@ -56,6 +56,10 @@ class BaseSpider():
         db.session.add(self.article)
         db.session.commit()
 
+    def saveAuthor(self,author):
+        db.session.add(author)
+        db.session.commit()
+
     def processSingle(self, url, html):
         pass
 

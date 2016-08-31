@@ -17,8 +17,8 @@ class MinimographyTest(unittest.TestCase):
         url = self.spider.getNext()
         html = self.spider.getHtml(url)
         result = self.spider.processSingle(url,html)
-        print html
-        print result
+        # print html
+        # print result
         self.assertNotEqual(result,False)
 
 if __name__ =='__main__':
