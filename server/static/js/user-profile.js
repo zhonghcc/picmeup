@@ -1,7 +1,6 @@
 /**
- * 用户登陆，注册，资料修改等功能
+ * Home
  */
-
 $(function(){
     var $container = $('.grid');
     $container.imagesLoaded(function() {
@@ -48,3 +47,6 @@ $(function(){
         }
     );
 });
+
+
+

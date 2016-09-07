@@ -10,11 +10,16 @@
 </div>
 <div class="row" style="text-align: center">
 
+    <div class="col-md-8">
     <img class="" src="{{url_for('pic.getPic',source=article.origin,fileName=article.file_name,type='middle')}}" alt="{{article.title}}">
-</div>
-<div class="row">
-    <h2 style="text-align: center">
-        <a href="{{url_for('pic.getPic',source=article.origin,fileName=article.file_name,type='orig')}}">Download Origin</a>
-    </h2>
+        <h2 style="text-align: center">
+            <a href="{{url_for('pic.getPic',source=article.origin,fileName=article.file_name,type='orig')}}">Download Origin</a>
+        </h2>
+    </div>
+    <div class="col-md-4" style="">
+        <h2>作者</h2>
+        <h2><a href="{{url_for('user.profile',id=author.id)}}">{{author.nickname}}</a></h2>
+        <p>{{author.description}}</p>
+    </div>
 </div>
 {% endblock %}

@@ -6,6 +6,7 @@ from flask import render_template, flash
 from flask import current_app as app
 from flask_login import current_user,LoginManager
 import flask_login as login
+from models import User,Article
 
 login_manager=LoginManager()
 blueprint = Blueprint('user', __name__)
@@ -35,8 +36,11 @@ def signup():
 
 
 @blueprint.route('/profile/')
-@blueprint.route('/profile/<slug_or_id>')
-@login.login_required
-def profile(slug_or_id=None):
+@blueprint.route('/profile/<id>')
+# @login.login_required
+def profile(id=None):
 #def profile():
-    return True
+    user = User.query.get(id)
+    articles = Article.query.filter(Article.author_id==id).offset(0).limit(20).all()
+    print articles
+    return render_template('userprofile.html',articles=articles,user=user)

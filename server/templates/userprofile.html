@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+{% block title %}用户|{{user.nickname}}{% endblock %}
+{% block content %}
+<!--<div class="row">-->
+
+   <!--<h1>{{user.nickname}}</h1>-->
+    <!--<hr/>-->
+
+
+<!--</div>-->
+<div class="row" style="text-align: center">
+    <h1>{{user.nickname}}</h1>
+    <p style="width:500px;margin:0 auto;margin-top:30px;">{{user.description}}</p>
+</div>
+<div class="row" style="text-align: center;margin-top:30px;">
+
+    <div class="grid">
+        {% for article in articles %}
+
+        <a class="grid-item-a" href="{{url_for('item.detail',id=article.id)}}">
+            <div class="grid-item">
+                <img class="" src="{{url_for('pic.getPic',source=article.origin,fileName=article.file_name,type='small')}}" alt="{{article.title}}">
+            </div>
+        </a>
+
+
+        {% endfor %}
+    </div>
+
+</div>
+<style>
+
+    .grid-item{
+        width:300px;
+        margin-bottom: 20px;
+        float: left;
+
+
+    }
+    .grid-item img {
+        max-width: 100%;
+    }
+
+</style>
+{% endblock %}
