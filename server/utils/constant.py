@@ -12,3 +12,4 @@ ROLE_DEFAULT = 'DEFAULT'
 
 
 ORI_MINIMOGRAPHY = "minimography"
+ORI_UNSPLASH = "unsplash"
