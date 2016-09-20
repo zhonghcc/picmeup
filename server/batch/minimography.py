@@ -32,8 +32,9 @@ class Minimography(basespider.BaseSpider):
         # self.picName='%03.d'%self.currentidx
         # return 'http://minimography.com/%s/' % self.picName
 
-    def processSingle(self, url, html):
+    def processSingle(self, url):
         try:
+            html = self.getHtml(url)
             count = self.getDB().session.query(Article).filter(Article.origin_url == url).count()
             if count > 0:
                 return None

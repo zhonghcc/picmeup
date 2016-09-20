@@ -34,23 +34,30 @@ class BaseSpider():
         pass
 
     def getNext(self):
+        '''
+        next url or object to process
+        :return:
+            None: nothing
+            url: need to get
+            object: to save
+        '''
         pass
 
     def process(self):
         self.init()
         self.postInit()
-        url = self.getNext()
-        while url is not None:
-            app.logger.debug(url)
-            html = self.getHtml(url)
-            result = self.processSingle(url, html)
+        obj = self.getNext()
+        while obj is not None:
+            app.logger.debug(obj)
+            #html = self.getHtml(url)
+            result = self.processSingle(obj)
             if result == False:
                 break
             elif result == None:
-                url = self.getNext()
+                obj = self.getNext()
             else:
                 self.saveAriticle()
-                url = self.getNext()
+                obj = self.getNext()
 
     def saveAriticle(self):
         db.session.add(self.article)
@@ -61,12 +68,31 @@ class BaseSpider():
         db.session.commit()
 
     def processSingle(self, url, html):
+        '''
+        process single article
+        :param url: where is the pic come from
+        :param html: the body of pic html or json object
+        :return:
+            None: nothing, you can continue.
+            False: error, you must stop
+            article object: success
+        '''
         pass
 
     def getHtml(self, url):
-        page = urllib2.urlopen(url, timeout=5)
-        html = page.read()
-        return html
+        logging.debug(url)
+        print url
+        try:
+            page = urllib2.urlopen(url, timeout=5)
+            code = page.code
+            if code==200:
+                html = page.read()
+                return html
+            else:
+                return None
+        except Exception,e:
+            logging.info(e)
+            return None
 
     def saveImage(self, img_url, filename):
 
