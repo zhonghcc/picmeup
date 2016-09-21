@@ -9,7 +9,7 @@ import os
 blueprint = Blueprint('pic', __name__)
 
 
-@blueprint.route('/<source>/<fileName>/<type>')
+@blueprint.route('/<source>/<type>_<fileName>')
 def getPic(source,fileName,type):
     app.logger.debug(id)
     file, ext = os.path.splitext(fileName)

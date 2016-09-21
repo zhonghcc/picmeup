@@ -19,8 +19,14 @@ scheduler = BackgroundScheduler(executors=executors,job_defaults=job_defaults)
 def minimography_job():
     app.logger.info('minimograthy_job')
     from minimography import Minimography
-    m = Minimography()
-    m.process()
+    job = Minimography()
+    job.process()
 
+@scheduler.scheduled_job('interval', id='unsplash_job', minutes=70)
+def unsplash_job():
+    app.logger.info('unsplash_job')
+    from unsplash import Unsplash
+    job = Unsplash()
+    job.process()
 #scheduler.add_job(minimography_job,'interval',seconds=20)
 # scheduler.start()
