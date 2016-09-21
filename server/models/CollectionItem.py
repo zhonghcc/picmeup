@@ -7,7 +7,7 @@ class CollectionItem(db.Model):
     __tablename__ = 'collection_items'
 
     id=db.Column(db.Integer,primary_key=True,autoincrement=True)
-    author_id = db.Column(db.Integer,nullable=False)
+    collection_id = db.Column(db.Integer,nullable=False)
     article_id = db.Column(db.Integer,nullable=False)
 
     created_time = db.Column(db.DateTime, default=datetime.now)

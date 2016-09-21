@@ -22,7 +22,6 @@ class UnsplashTest(unittest.TestCase):
         self.assertNotEqual(result,False)
 
     def testProcess(self):
-        self.spider.colIndex=120
         self.spider.process()
 
 if __name__ =='__main__':

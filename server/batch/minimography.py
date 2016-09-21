@@ -82,7 +82,7 @@ class Minimography(basespider.BaseSpider):
                 author = User()
                 author.description = author_desc
                 author.nickname = author_name
-                author.username = author_name
+                author.username = author_name.lower().strip().replace(' ','')
                 author.is_imported = True
                 author.origin = self.getSource()
                 author.origin_url = author_url
@@ -93,9 +93,13 @@ class Minimography(basespider.BaseSpider):
 
             self.article.author_id = author.id
             self.article.pic_url = pic_url
-            return self.saveImage(pic_url, self.origName)
+            result = self.saveImage(pic_url, self.origName)
+            if result is True:
+                return self.article
+            else:
+                return result
         except Exception, e:
             self.logger.error(e)
             return False
 
-        return True
+        return False

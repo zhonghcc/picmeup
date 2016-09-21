@@ -3,7 +3,7 @@
 import batch
 from batch import db, app
 from datetime import datetime
-from models import Article
+from models import Article,Collection,CollectionItem
 import urllib,urllib2
 import re
 import os
@@ -22,6 +22,14 @@ class BaseSpider():
         ctx.push()
         db.init_app(app)
         self.logger = self.getLogger()
+
+        # get this collection
+        self.collection = db.session.query(Collection).filter(Collection.name == self.getSource()).first()
+        if self.collection is None:
+            self.collection = Collection()
+            self.collection.name=self.getSource()
+            self.saveCollection(self.collection)
+
 
     def postInit(self):
         pass
@@ -57,6 +65,7 @@ class BaseSpider():
                 obj = self.getNext()
             else:
                 self.saveAriticle()
+                self.addArticleToCollection(self.collection,result)
                 obj = self.getNext()
 
     def saveAriticle(self):
@@ -65,6 +74,17 @@ class BaseSpider():
 
     def saveAuthor(self,author):
         db.session.add(author)
+        db.session.commit()
+
+    def saveCollection(self,col):
+        db.session.add(col)
+        db.session.commit()
+
+    def addArticleToCollection(self,col,article):
+        colItem = CollectionItem()
+        colItem.article_id=article.id
+        colItem.collection_id = col.id
+        db.session.add(colItem)
         db.session.commit()
 
     def processSingle(self, url, html):
@@ -98,13 +118,14 @@ class BaseSpider():
 
         count = db.session.query(Article).filter(Article.pic_url == img_url).count()
         if count > 0:
-            self.logger.debug(img_url + 'already downloaded')
+            self.logger.debug(img_url + ' already downloaded')
             return None
 
         path = self.getBasePath() + self.getSource()
         if not os.path.exists(path):  # 路径不存在时创建一个
             os.makedirs(path)
         fullPath = path + '/' + filename
+        logging.debug(fullPath)
         # if os.path.exists(fullPath):
         #     self.debug(fullPath+'already existed')
         #     return None

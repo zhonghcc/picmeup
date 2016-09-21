@@ -21,5 +21,8 @@ class MinimographyTest(unittest.TestCase):
         # print result
         self.assertNotEqual(result,False)
 
+    def testProcess(self):
+        self.spider.process()
+
 if __name__ =='__main__':
     unittest.main()

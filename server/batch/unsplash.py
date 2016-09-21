@@ -9,7 +9,7 @@ class Unsplash(basespider.BaseSpider):
     def __init__(self):
 
         self.collist = None
-        self.colIndex = 120
+        self.colIndex = 1
         self.picList = []
 
     def prepareOneCollection(self):
@@ -54,22 +54,47 @@ class Unsplash(basespider.BaseSpider):
         return self.picList.pop(0)
 
     def processSingle(self, obj):
+        try:
+            picUrl = obj['urls']['raw']
+            originUrl = obj['links']['html']
+            origName = obj['id']
+            fileName = origName+'.jpg'
 
-        picUrl = obj['urls']['raw']
-        originUrl = obj['links']['html']
-        origName = obj['id']
-        fileName = origName+'.jpg'
+            count = self.getDB().session.query(Article).filter(Article.origin_url == originUrl).count()
+            if count > 0:
+                return None
 
-        self.saveImage(picUrl,fileName)
+            user = obj['user']
+            author_url =user['links']['html']
+            author = self.getDB().session.query(User).filter(User.origin_url == author_url).first()
+            if author is None:
+                author = User()
+                author.description = user['bio']
+                author.nickname = user['name']
+                author.username = user['username']
+                author.is_imported = True
+                author.origin = self.getSource()
+                author.origin_url = author_url
+                author.status = STATUS_NORMAL
+                author.role = ROLE_AUTHOR
 
-        # self.article = Article()
-        # self.article.origin = self.getSource()
-        # self.article.origin_url =
-        # self.origName = 'minimography_%s_orig.jpg' % self.picName
-        # self.article.file_name = self.origName  # minimography_001_orig.jpg
-        # self.article.title = self.getSource() + ' ' + self.picName
-        return True
+                self.saveAuthor(author)
 
-    def saveAriticle(self):
-        return True
+            self.article = Article()
+            self.article.origin = self.getSource()
+            self.article.origin_url = originUrl
+            self.article.author_id = author.id
+            self.article.pic_url = picUrl
+            self.article.file_name = fileName
+            self.article.title = origName
+            result = self.saveImage(picUrl, fileName)
+            if result is True:
+                return self.article
+            else:
+                return result
+        except Exception,e:
+            self.logger.error(e)
+            return False
+        return False
+
 
