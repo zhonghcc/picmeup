@@ -136,4 +136,4 @@ def init():
 
 if __name__ == '__main__':
     init()
-    app.run(debug=True, use_reloader=False)
+    app.run(debug=True, host='0.0.0.0', use_reloader=False)
