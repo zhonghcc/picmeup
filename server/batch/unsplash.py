@@ -3,6 +3,8 @@ from models import Article,User
 from utils.constant import *
 import re
 import json
+import unsplash_id
+import time
 
 
 class Unsplash(basespider.BaseSpider):
@@ -13,33 +15,44 @@ class Unsplash(basespider.BaseSpider):
         self.picList = []
 
     def prepareOneCollection(self):
-        colUrl = "https://unsplash.com/collections/curated/"+str(self.colIndex)
+
+        colUrl = "https://api.unsplash.com/photos/curated?client_id="+\
+                 unsplash_id.APPLICATION_ID+"&page="+str(self.colIndex)
+
+        self.logger.debug(colUrl)
         self.colIndex = self.colIndex+1
         picList = self.getPhotosJSON(colUrl)
         return picList
 
 
     def getPhotosJSON(self,url):
-        colHtml = self.getHtml(url)
-        if colHtml == None:
-            return None
-        j=0
-        start=9999
-        end=9999
-        sb = ""
-        for line in colHtml.split('\n'):
-            if '__ASYNC_PROPS__' in line:
-                start=j
-            if j>start and j<end and '</script>' in line:
-                end=j
-            if j>start and j<end:
-                sb=sb+line
-            j=j+1
-        #sb = sb[0:-2]
-        obj0 = json.loads(sb,encoding="utf-8")
-        picList = obj0['asyncPropsPhotoFeed']['photos']
+        # colHtml = self.getHtml(url)
+        # if colHtml == None:
+        #     return None
+        # j=0
+        # start=9999
+        # end=9999
+        # sb = ""
+        # for line in colHtml.split('\n'):
+        #     if '__ASYNC_PROPS__' in line:
+        #         start=j
+        #     if j>start and j<end and '</script>' in line:
+        #         end=j
+        #     if j>start and j<end:
+        #         sb=sb+line
+        #     j=j+1
+        # #sb = sb[0:-2]
+        # obj0 = json.loads(sb,encoding="utf-8")
+
+        html = self.getHtml(url)
+        picList = json.loads(html)#obj0['asyncPropsPhotoFeed']['photos']
+        self.logger.debug(picList)
         print len(picList)
-        return picList
+        if len(picList) == 0:
+            return None
+        else:
+            time.sleep(75)#75
+            return picList
 
     def getSource(self):
         return ORI_UNSPLASH
@@ -89,6 +102,7 @@ class Unsplash(basespider.BaseSpider):
             self.article.title = origName
             result = self.saveImage(picUrl, fileName)
             if result is True:
+                time.sleep(75)#75
                 return self.article
             else:
                 return result

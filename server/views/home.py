@@ -12,7 +12,7 @@ blueprint = Blueprint('home', __name__)
 
 @blueprint.route('/')
 def index():
-    articleList = Article.query.offset(0).limit(20).all()
+    articleList = Article.query.order_by(Article.created_time.desc()).offset(0).limit(20).all()
     totalcount = Article.query.count()
     return render_template('index.html',articles=articleList,totalcount =totalcount,readedpage=1)
 
