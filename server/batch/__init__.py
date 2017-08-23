@@ -22,7 +22,7 @@ def minimography_job():
     job = Minimography()
     job.process()
 
-@scheduler.scheduled_job('interval', id='unsplash_job', minutes=2)
+@scheduler.scheduled_job('interval', id='unsplash_job', minutes=70)
 def unsplash_job():
     app.logger.info('unsplash_job')
     from unsplash import Unsplash
