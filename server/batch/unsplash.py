@@ -44,9 +44,16 @@ class Unsplash(basespider.BaseSpider):
         # #sb = sb[0:-2]
         # obj0 = json.loads(sb,encoding="utf-8")
 
-        html = self.getHtml(url)
-        picList = json.loads(html)#obj0['asyncPropsPhotoFeed']['photos']
-        self.logger.debug(picList)
+        try:
+            html = self.getHtml(url)
+            self.logger.debug(html)
+            picList = json.loads(html)#obj0['asyncPropsPhotoFeed']['photos']
+            self.logger.debug(picList)
+        except Exception,e:
+            self.logger.error(e)
+            return None
+
+
         print len(picList)
         if len(picList) == 0:
             return None

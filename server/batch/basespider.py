@@ -103,7 +103,7 @@ class BaseSpider():
         logging.debug(url)
         print url
         try:
-            page = urllib2.urlopen(url, timeout=5)
+            page = urllib2.urlopen(url, timeout=50) # wait him longer time
             code = page.code
             if code==200:
                 html = page.read()
