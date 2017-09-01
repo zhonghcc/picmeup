@@ -21,7 +21,7 @@ def page(pageid):
     app.logger.debug(pageid)
     start = int(int(pageid-1)*20)
     app.logger.debug(start)
-    articleList = Article.query.offset(start).limit(20).all()
+    articleList = Article.query.order_by(Article.id.desc()).offset(start).limit(20).all()
     app.logger.debug(articleList)
     totalcount = Article.query.count()
     return render_template('index.html',articles=articleList,totalcount=totalcount,readedpage=pageid)
