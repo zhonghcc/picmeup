@@ -1,0 +1,95 @@
+{% extends "layout.html" %}
+{% block title %}用户注册{% endblock %}
+{% block content %}
+<div class="row">
+    <h1 class="col-md-6 col-md-offset-2  col-xs-10 col-xs-offset-1 page_title ">注册</h1>
+</div>
+
+<div class="row">
+
+    <div class="col-md-8 col-md-offset-2 col-xs-12 ">
+
+        <div class="panel panel-default">
+
+            <div class="panel-body">
+                <form action="" method="post" class="form-horizontal"  name="send">
+                    {{ form.hidden_tag() }}
+                    <br/>
+                    <div class="form-group">
+                        <label for="username" class="col-sm-3 control-label">用户名:</label>
+                        <div class="col-sm-6">
+                            <div class="input-group">
+                                {{ form.username(class="form-control",placeholder="请输入用户名") }}
+
+                                <div class="input-group-addon">
+                                    <span class="glyphicon glyphicon-user"></span>
+                                </div>
+                            </div>
+                            {% for error in form.username.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="col-sm-3 control-label">密码：</label>
+                        <div class="col-sm-6">
+                            <div class="input-group">
+                                <input type="password" class="form-control" name="password" placeholder="请输入密码（六位以上）">
+                                <div class="input-group-addon">
+                                    <span class="glyphicon glyphicon-lock"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="chkpwd" class="col-sm-3 control-label">确认密码：</label>
+                        <div class="col-sm-6">
+                            <div class="input-group">
+                                <input type="password" class="form-control" name="chkpwd" placeholder="请确认密码">
+                                <div class="input-group-addon">
+                                    <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="col-sm-3 control-label">邮箱：</label>
+                        <div class="col-sm-6">
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="email" placeholder="请输入有效邮箱">
+                                <div class="input-group-addon">
+                                    <span class="glyphicon glyphicon-envelope"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-3 col-sm-6">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" checked="true"> 接收邮件通知
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+
+                        <div class="col-md-6 col-md-offset-3 col-xs-12">
+                            <button type="submit" class="btn btn-primary btn-block"><b>&nbsp&nbsp提交&nbsp&nbsp</b>
+                            </button>
+                        </div>
+                    </div>
+                    <br/>
+                    <br/>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+{% endblock %}

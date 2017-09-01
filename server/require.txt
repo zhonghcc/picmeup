@@ -3,6 +3,7 @@ Flask-Sqlalchemy
 Flask-Login
 Flask-Principal
 Flask-Mail
+Flask-WTF
 apscheduler
 alembic
 Image

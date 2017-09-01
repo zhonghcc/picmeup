@@ -17,3 +17,15 @@ body {
         width: 1300px;
     }
 }
+
+.panel-body{
+    color:#333;
+}
+
+.form-control{
+
+}
+
+.form-group{
+    margin-top:20px;
+}

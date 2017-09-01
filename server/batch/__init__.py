@@ -8,14 +8,14 @@ executors = {
 }
 
 job_defaults = {
-    'coalesce': False,
+    'coalesce': True,
     'max_instances': 1
 }
 
 scheduler = BackgroundScheduler(executors=executors,job_defaults=job_defaults)
 
 
-@scheduler.scheduled_job('interval', id='minimograthy_job', minutes=50)
+# @scheduler.scheduled_job('interval', id='minimograthy_job', minutes=50)
 def minimography_job():
     app.logger.info('minimograthy_job')
     from minimography import Minimography

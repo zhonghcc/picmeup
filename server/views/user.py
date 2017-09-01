@@ -7,7 +7,7 @@ from flask import current_app as app
 from flask_login import current_user,LoginManager
 import flask_login as login
 from models import User,Article
-
+from forms.forms import SignupForm
 login_manager=LoginManager()
 blueprint = Blueprint('user', __name__)
 
@@ -32,7 +32,12 @@ blueprint = Blueprint("user", __name__)
 
 @blueprint.route('/signup/', methods=['GET', 'POST'])
 def signup():
-    return True
+    form = SignupForm()
+    if form.validate_on_submit():
+        flash('Login requested for OpenID="' + form.openid.data + '", remember_me=' + str(form.remember_me.data))
+        return redirect('/index')
+
+    return render_template('usersignup.html',form=form)
 
 
 @blueprint.route('/profile/')
