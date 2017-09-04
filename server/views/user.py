@@ -4,29 +4,13 @@ logger = logging.getLogger(__name__)
 from flask import Blueprint, request, session, url_for, redirect, jsonify, abort
 from flask import render_template, flash
 from flask import current_app as app
-from flask_login import current_user,LoginManager
-import flask_login as login
+
 from models import User,Article
-from forms.forms import SignupForm
-login_manager=LoginManager()
-blueprint = Blueprint('user', __name__)
-
-
-class Anonymous(login.AnonymousUserMixin):
-    pass
-    #user = User(nickname=u'游客', email='')
-
-class LoginUser(login.UserMixin):
-    """Wraps User object for Flask-Login"""
-
-    def __init__(self, user):
-        self.id = user.id
-        self.user = user
-
-login_manager.anonymous_user = Anonymous
-login_manager.login_view = 'user.signin'
-login_manager.login_message = u'需要登陆后才能访问本页'
-
+from forms.forms import SignupForm,LoginForm
+from datetime import datetime
+from server import db,login_manager
+from utils.constant import *
+import auth
 
 blueprint = Blueprint("user", __name__)
 
@@ -34,10 +18,51 @@ blueprint = Blueprint("user", __name__)
 def signup():
     form = SignupForm()
     if form.validate_on_submit():
-        flash('Login requested for OpenID="' + form.openid.data + '", remember_me=' + str(form.remember_me.data))
-        return redirect('/index')
+        # flash('Login requested for OpenID="' + form.openid.data + '", remember_me=' + str(form.remember_me.data))
+        user = User()
+        user.created_time = datetime.now()
+        user.email = form.email.data
+        user.nickname = form.username.data
+        user.username = form.username.data
+        user.password = form.password.data
+        user.role = ROLE_DEFAULT
+        user.is_imported = False
+        user.status = STATUS_NORMAL
+        db.session.add(user)
+        db.session.commit()
+        auth.login(user,True)
+        flash(u'注册成功')
+        return redirect('/')
 
     return render_template('usersignup.html',form=form)
+
+@blueprint.route('/login/', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        # Login and validate the user.
+        # user should be an instance of your `User` class
+
+        user = User.query.filter_by(username=form.username.data,password=form.password.data).first()
+        if user != None:
+
+            auth.login(user,form.remember_me.data)
+            user.last_log_time = datetime.now()
+            db.session.commit()
+            flash('登录成功')
+
+            next = request.args.get('next')
+            # next_is_valid should check if the user has valid
+            # permission to access the `next` url
+            # if not next_is_valid(next):
+            #     return abort(400)
+            return redirect(next or url_for('home.index'))
+
+        else:
+            flash(u"用户名或密码错误")
+
+    return render_template('userlogin.html', form=form)
+
 
 
 @blueprint.route('/profile/')
@@ -49,3 +74,8 @@ def profile(id=None):
     articles = Article.query.filter(Article.author_id==id).offset(0).limit(20).all()
     print articles
     return render_template('userprofile.html',articles=articles,user=user)
+
+@blueprint.route('/logout/')
+def logout():
+    auth.logout()
+    return redirect(url_for('home.index'))

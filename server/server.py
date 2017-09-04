@@ -8,16 +8,15 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_mail import Mail
 from flask_principal import Principal
+from auth import login_manager
 
 app = Flask(__name__)
 app.debug_log_format = '%(asctime)s [%(levelname)s] %(message)s'
 app.debug = True
 
 db = SQLAlchemy()
-login_manager = LoginManager()
 principals = Principal()
 mail = Mail()
-
 
 
 
@@ -40,6 +39,7 @@ def config_app(app, config):
     #babel.init_app(app)
     #mail.init_app(app)
     register_blueprints(app)
+
 
 
 
