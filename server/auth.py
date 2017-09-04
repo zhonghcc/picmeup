@@ -3,6 +3,8 @@ from flask_login import current_user,LoginManager,login_user,logout_user
 import flask_login as login
 from flask_login import login_manager
 from models import User
+from utils.constant import *
+import hashlib
 
 login_manager = LoginManager()
 
@@ -35,3 +37,13 @@ def login(user,remember_me):
 
 def logout():
     logout_user()
+
+def getPassword(username,orig):
+    m2 = hashlib.md5()
+    m2.update(orig)
+    md51 = m2.hexdigest()
+    m2.update(md51+SALT+username)
+    md52 = m2.hexdigest()
+    m2.update(md52)
+    md53 = m2.hexdigest()
+    return md53

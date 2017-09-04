@@ -11,6 +11,7 @@ from datetime import datetime
 from server import db,login_manager
 from utils.constant import *
 import auth
+import hashlib
 
 blueprint = Blueprint("user", __name__)
 
@@ -20,11 +21,12 @@ def signup():
     if form.validate_on_submit():
         # flash('Login requested for OpenID="' + form.openid.data + '", remember_me=' + str(form.remember_me.data))
         user = User()
+
         user.created_time = datetime.now()
         user.email = form.email.data
         user.nickname = form.username.data
         user.username = form.username.data
-        user.password = form.password.data
+        user.password = auth.getPassword(user.username,form.password.data)
         user.role = ROLE_DEFAULT
         user.is_imported = False
         user.status = STATUS_NORMAL
@@ -43,13 +45,13 @@ def login():
         # Login and validate the user.
         # user should be an instance of your `User` class
 
-        user = User.query.filter_by(username=form.username.data,password=form.password.data).first()
+        user = User.query.filter_by(username=form.username.data,password=auth.getPassword(form.username.data,form.password.data)).first()
         if user != None:
 
             auth.login(user,form.remember_me.data)
             user.last_log_time = datetime.now()
             db.session.commit()
-            flash('登录成功')
+            flash(u'登录成功')
 
             next = request.args.get('next')
             # next_is_valid should check if the user has valid
