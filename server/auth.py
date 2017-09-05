@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from flask_login import current_user,LoginManager,login_user,logout_user
 import flask_login as login
-from flask_login import login_manager
+# from flask_login import login_manager
 from models import User
 from utils.constant import *
 import hashlib

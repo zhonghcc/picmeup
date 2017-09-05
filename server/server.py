@@ -8,7 +8,6 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_mail import Mail
 from flask_principal import Principal
-from auth import login_manager
 
 app = Flask(__name__)
 app.debug_log_format = '%(asctime)s [%(levelname)s] %(message)s'
@@ -35,6 +34,7 @@ def config_app(app, config):
     #print db.get_uri()
     config_principal(app)
     #oid.init_app(app)
+    from auth import login_manager
     login_manager.init_app(app)
     #babel.init_app(app)
     #mail.init_app(app)

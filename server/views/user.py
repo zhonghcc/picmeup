@@ -8,7 +8,7 @@ from flask import current_app as app
 from models import User,Article
 from forms.forms import SignupForm,LoginForm
 from datetime import datetime
-from server import db,login_manager
+from server import db
 from utils.constant import *
 import auth
 import hashlib
