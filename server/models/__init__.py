@@ -1,6 +1,9 @@
 #-*-coding:utf-8-*-
 
 from Article import Article
+from ArticleDownload import ArticleDownload
+from ArticleView import ArticleView
+from ArticleLike import ArticleLike
 from Collection import Collection
 from CollectionItem import CollectionItem
 from Tag import Tag

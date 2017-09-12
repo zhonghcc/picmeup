@@ -6,4 +6,8 @@ Running our First Migration
 
 $ alembic upgrade head
 
+$ alembic upgrade +1
+
+$ alembic downgrade -1
+
 

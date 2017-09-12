@@ -50,6 +50,7 @@ def login():
 
             auth.login(user,form.remember_me.data)
             user.last_log_time = datetime.now()
+            user.last_log_ip = request.remote_addr
             db.session.commit()
             flash(u'登录成功')
 

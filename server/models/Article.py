@@ -22,6 +22,10 @@ class Article(db.Model):
     status = db.Column(db.Integer, nullable=False,default=1)
     order =  db.Column(db.Integer,nullable=True,default=0)
 
+    view_num = db.Column(db.Integer,nullable=True,default=0)
+    like_num = db.Column(db.Integer,nullable=True,default=0)
+    download_num = db.Column(db.Integer,nullable=True,default=0)
+
     def __repr__(self):
         return json.dumps(self.serialize)
 

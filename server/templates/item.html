@@ -13,7 +13,7 @@
     <div class="col-md-8">
     <img class="" src="{{url_for('pic.getPic',source=article.origin,fileName=article.file_name,type='middle')}}" alt="{{article.title}}">
         <h2 style="text-align: center">
-            <a href="{{url_for('pic.downloadPic',source=article.origin,fileName=article.file_name,type='orig')}}">Download Origin</a>
+            <a href="{{url_for('pic.downloadPic',source=article.origin,fileName=article.file_name,id=article.id)}}">Download Origin</a>
         </h2>
     </div>
     <div class="col-md-4" style="">
