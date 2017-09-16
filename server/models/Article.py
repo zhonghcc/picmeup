@@ -26,6 +26,8 @@ class Article(db.Model):
     like_num = db.Column(db.Integer,nullable=True,default=0)
     download_num = db.Column(db.Integer,nullable=True,default=0)
 
+    coin_num = db.Column(db.Integer,nullable=True,default=5)
+
     def __repr__(self):
         return json.dumps(self.serialize)
 

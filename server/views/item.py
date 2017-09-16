@@ -8,6 +8,7 @@ from flask_login import login_required
 from auth import current_user
 from utils.constant import STATUS_DELETE,STATUS_NORMAL
 from datetime import datetime
+from forms.forms import TagForm
 import os
 
 blueprint = Blueprint('item', __name__)
@@ -56,3 +57,9 @@ def like(id):
             db.session.commit()
             flash(u"您已赞赏该作品")
             return redirect(url_for('item.detail',id=id))
+
+@blueprint.route('/<id>/addTag',methods=['POST'])
+@login_required
+def addTag(id):
+    form = TagForm()
+    if form.validate_on_submit():

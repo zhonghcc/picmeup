@@ -4,6 +4,8 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, BooleanField,PasswordField,ValidationError
 from wtforms.validators import DataRequired, Required, Length, Email  , Regexp, EqualTo  # 验证器，直接从 wtforms.validators 导入
 from models.User import User
+from models.Tag import Tag
+from auth import current_user
 
 class LoginForm(FlaskForm):
     username = StringField('username', validators=[DataRequired(message=u"请输入用户名")])
@@ -26,3 +28,11 @@ class SignupForm(FlaskForm):
     def validate_email(self,field):
         if User.query.filter_by(email=field.data).first():
             raise ValidationError(u'邮箱已被注册')
+
+class TagForm(FlaskForm):
+    tag = StringField('tag', validators=[DataRequired(message=u"请输入标签")])
+
+
+    def validate_tag(self,field):
+        if Tag.query.filter_by(title=field.data,user_id=current_user.get_id()):
+            raise ValidationError(u'不能添加重复标签')
