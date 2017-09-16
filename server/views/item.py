@@ -6,7 +6,7 @@ from server import app,db
 from models import *
 from flask_login import login_required
 from auth import current_user
-from utils.constant import STATUS_DELETE,STATUS_NORMAL
+from utils.constant import *
 from datetime import datetime
 from forms.forms import TagForm
 import os
@@ -16,14 +16,19 @@ blueprint = Blueprint('item', __name__)
 
 @blueprint.route('/<id>')
 def detail(id):
+    return itemDetail(id,TagForm())
+
+def itemDetail(id,form=None):
     article = Article.query.get(id)
     author = User.query.get(article.author_id)
+    tag = Tag.query.filter_by(article_id=id,status=STATUS_NORMAL).all()
 
     article.view_num = article.view_num+1
     view = ArticleView()
     view.article_id=id
     view.ip = request.remote_addr
     isLike = False
+
     if current_user.is_authenticated:
         user_id = current_user.get_id()
         view.user_id = user_id
@@ -33,7 +38,7 @@ def detail(id):
 
     db.session.add(view)
     db.session.commit()
-    return render_template('item.html',article=article,author=author,isLike=isLike)
+    return render_template('item.html',article=article,author=author,isLike=isLike,tags=tag,form=form)
 
 @blueprint.route('/<id>/like')
 @login_required
@@ -63,3 +68,33 @@ def like(id):
 def addTag(id):
     form = TagForm()
     if form.validate_on_submit():
+
+        user_id = current_user.get_id()
+
+        tag = Tag()
+        tag.article_id=id
+        tag.title=form.tag.data
+        tag.user_id = user_id
+        tag.status = STATUS_NORMAL
+
+        user = User.query.get(user_id)
+        user.coin_num = user.coin_num + 1
+
+        coin = Coin()
+        coin.coin_num = 1
+        coin.article_id = id
+        coin.user_id = user_id
+        coin.direction = COIN_DIRECTION_DEBIT
+        coin.reason = COIN_REASON_ADDTAG
+        coin.ip = request.remote_addr
+
+        db.session.add(tag)
+        db.session.add(coin)
+        db.session.commit()
+
+
+        flash(u"标签已提交")
+        app.logger.info(form.tag.data)
+        return itemDetail(id,form)
+
+    return itemDetail(id,form)

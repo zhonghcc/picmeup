@@ -14,7 +14,6 @@ blueprint = Blueprint('pic', __name__)
 
 @blueprint.route('/<source>/<type>/<fileName>')
 def getPic(source,fileName,type):
-    app.logger.debug(id)
     file, ext = os.path.splitext(fileName)
     result =None
     # time.sleep(0.5)

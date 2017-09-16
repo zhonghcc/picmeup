@@ -1,3 +1,4 @@
+#-*-coding:utf-8-*-
 SALT="23;5l1n345;;asdf23581g3bsadfkggb'aq3;asdbbzm.aaMEF201J1;ASDFN386972158804885504"
 
 THUMBNAIL_LIT_WIDTH = 300

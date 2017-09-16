@@ -40,10 +40,10 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li>
-                    <a href="/about">关于</a>
+                    <a href="{{ url_for('home.about') }}">关于</a>
                 </li>
                 <li>
-                    <a href="/explore">发现</a>
+                    <a href="{{ url_for('home.explore') }}">发现</a>
                 </li>
 
             </ul>
@@ -57,8 +57,9 @@
                 <li><a href="/user/signup">注册</a></li>
                 {% endif %}
             </ul>
-            <form class="navbar-form navbar-right" _lpchecked="1">
-                <input type="text" class="form-control" placeholder="搜索...">
+            <form class="navbar-form navbar-right" _lpchecked="1" action="{{ url_for('home.search')}}" method="post">
+                <input type="text" class="form-control" name=key placeholder="搜索...">
+                <input type="submit" hidden/>
             </form>
         </div>
         <!-- /.navbar-collapse -->
@@ -71,7 +72,7 @@
 <div class="container">
 
     {% for message in get_flashed_messages() %}
-    <div class="alert alert-info flash" style="display: none;">
+    <div class="alert alert-info flash container" style="display: none;position:fixed;top:80px;z-index: 999;">
         <button type="button" class="close" data-dismiss="alert">&times;</button>
         {{ message }}
     </div>

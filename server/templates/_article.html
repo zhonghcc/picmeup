@@ -1,0 +1,18 @@
+<a class="grid-item-a" href="{{url_for('item.detail',id=article.id)}}" target="_blank">
+    <div class="grid-item">
+        <img class="grid-img" src="{{url_for('static',filename='img/loading.jpg')}}"
+             v="{{url_for('pic.getPic',source=article.origin,fileName=article.file_name,type='small')}}" alt="{{article.title}}"
+             state=false >
+        <div class="grid-relative">
+            <div class="grid-view">
+
+            </div>
+            <div class="grid-icon">
+            <span style="font-size:16px;margin-left:20px;">
+            <span class="glyphicon glyphicon-heart" aria-hidden="true">&nbsp;{{article.like_num}}</span>
+            <span class="glyphicon glyphicon-eye-open" style="margin-left:20px;" aria-hidden="true">&nbsp;{{article.view_num}}</span>
+            </span>
+            </div>
+        </div>
+    </div>
+</a>

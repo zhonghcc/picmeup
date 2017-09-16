@@ -24,17 +24,20 @@
     <img class="middle-img" src="{{url_for('pic.getPic',source=article.origin,fileName=article.file_name,type='middle')}}" alt="{{article.title}}">
 
     </div>
-    <div class="col-md-4 col-xs-12" style="">
+    <div class="col-md-4 col-xs-12" style="line-height:40px;">
         <h2>标签</h2>
         {% if tags %}
-        <span class="label label-default">Default<span class="badge">42</span></span>
+        {% for tag in tags %}
+        <span class="label label-default">{{tag.title}}</span>
+        {% endfor %}
         {% else %}
         <span> 暂无标签，请添加</span>
         {% endif %}
         <form action={{url_for('item.addTag',id=article.id)}} method="post">
+            {{ form.hidden_tag() }}
         <div class="form-group">
             <div class="col-md-9">
-                <input type="text" class="form-control" id="tag" placeholder="tag">
+                <input type="text" class="form-control" name="tag" id="tag" placeholder="tag">
                 {% for error in form.tag.errors %}
                 <span style="color: red;">[{{ error }}]</span>
                 {% endfor %}
@@ -57,7 +60,7 @@
 
     </div>
 </div>
-<div class="row container" style="position:fixed;bottom:0">
+<div class="row container" style="position:fixed;bottom:0;z-index: 999;">
 
     <div class="col-md-4 col-xs-12 col-md-offset-8" style="">
         <div class="row">

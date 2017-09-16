@@ -1,20 +1,9 @@
 {% extends "layout.html" %}
-{% block title %}用户|{{user.nickname}}{% endblock %}
+{% block title %}搜索{% endblock %}
 {% block content %}
-<!--<div class="row">-->
-
-   <!--<h1>{{user.nickname}}</h1>-->
-    <!--<hr/>-->
 
 
-<!--</div>-->
-<div class="row" style="text-align: center">
-    <h1>{{user.nickname}}</h1>
-    {% if user.id == current_user.id %}
-    <h4>{{user.coin_num}} Coin</h4>
-    {% endif %}
-    <p style="width:500px;margin:0 auto;margin-top:30px;">{{user.description}}</p>
-</div>
+
 <div class="row" style="text-align: center;margin-top:30px;">
 
     <div class="grid">

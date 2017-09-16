@@ -1,20 +1,13 @@
 {% extends "layout.html" %}
-{% block title %}用户|{{user.nickname}}{% endblock %}
+{% block title %}搜索{% endblock %}
 {% block content %}
-<!--<div class="row">-->
 
-   <!--<h1>{{user.nickname}}</h1>-->
-    <!--<hr/>-->
+{% if isDefault %}
+<h3>抱歉没有为您找到相关图片</h3>
+{% else %}
+<h3>为您找到有 <{{ key }}> 关键字的作品</h3>
+{% endif %}
 
-
-<!--</div>-->
-<div class="row" style="text-align: center">
-    <h1>{{user.nickname}}</h1>
-    {% if user.id == current_user.id %}
-    <h4>{{user.coin_num}} Coin</h4>
-    {% endif %}
-    <p style="width:500px;margin:0 auto;margin-top:30px;">{{user.description}}</p>
-</div>
 <div class="row" style="text-align: center;margin-top:30px;">
 
     <div class="grid">

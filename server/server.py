@@ -13,6 +13,14 @@ from flask_principal import Principal
 
 app = Flask(__name__)
 log_format = '%(asctime)s [%(levelname)s] [%(filename)s\t%(funcName)s:%(lineno)s] %(message)s'
+handler = logging.handlers.TimedRotatingFileHandler('log/picup.log', when='D', interval=1, backupCount=30,  encoding='UTF-8', delay=False, utc=False)
+handler.suffix = "%Y%m%d"
+handler.setLevel(logging.DEBUG)
+
+logging_format = logging.Formatter(log_format)
+
+handler.setFormatter(logging_format)
+app.logger.addHandler(handler)
 app.debug = True
 
 db = SQLAlchemy()
@@ -23,14 +31,7 @@ mail = Mail()
 
 # Configuration application
 def config_app(app, config):
-    handler = logging.handlers.TimedRotatingFileHandler('log/picup.log', when='D', interval=1, backupCount=30,  encoding='UTF-8', delay=False, utc=False)
-    handler.suffix = "%Y%m%d"
-    handler.setLevel(logging.DEBUG)
 
-    logging_format = logging.Formatter(log_format)
-
-    handler.setFormatter(logging_format)
-    app.logger.addHandler(handler)
     app.logger.info('Setting up application...')
 
     app.logger.info('Loading config file: %s' % config)

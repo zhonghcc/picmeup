@@ -27,6 +27,7 @@ class User(db.Model):
     created_time = db.Column(db.DateTime, default=datetime.now)
     updated_time = db.Column(db.DateTime, default=datetime.now)
     status = db.Column(db.Integer, nullable=False)
+    coin_num = db.Column(db.Integer,nullable=True,default=5)
 
 
     def __repr__(self):

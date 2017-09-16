@@ -1,6 +1,7 @@
 /**
  * 用户登陆，注册，资料修改等功能
  */
+infinateFlow();
 
 function Check()  // 验证表单数据有效性
 {

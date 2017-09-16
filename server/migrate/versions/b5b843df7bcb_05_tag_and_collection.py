@@ -21,7 +21,7 @@ from datetime import datetime
 def upgrade():
     op.drop_column('tags','author_id')
     op.add_column('tags',sa.Column('user_id',sa.Integer,nullable=True,default=0))
-    op.add_column('articles',sa.Column('coin_num',sa.Integer,nullable=False,default=5))
+    op.add_column('users',sa.Column('coin_num',sa.Integer,nullable=False,default=5))
     op.create_table(
             'coins',
             sa.Column('id',sa.Integer,primary_key=True,autoincrement=True),
@@ -43,6 +43,6 @@ def upgrade():
 def downgrade():
     op.drop_column('tags','user_id')
     op.add_column('tags',sa.Column('author_id',sa.Integer,nullable=True,default=0))
-    op.drop_column('articles','coin_num')
+    op.drop_column('users','coin_num')
     op.drop_table('coins')
     pass
