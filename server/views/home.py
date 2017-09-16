@@ -45,7 +45,7 @@ def search():
             for tag in tags:
                 article = Article.query.get(tag.article_id)
                 articleList.append(article)
-                return render_template('search.html',articles=articleList,isDefault = False,key=key)
+            return render_template('search.html',articles=articleList,isDefault = False,key=key)
 
     articleList = Article.query.order_by(Article.id.desc()).offset(0).limit(20).all()
     totalcount = Article.query.count()
