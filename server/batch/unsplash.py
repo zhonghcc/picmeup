@@ -54,7 +54,6 @@ class Unsplash(basespider.BaseSpider):
             return None
 
 
-        print len(picList)
         if len(picList) == 0:
             return None
         else:

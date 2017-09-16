@@ -1,9 +1,17 @@
 body {
     background: url('../img/classy_fabric_light.jpg');
     color:#dddddd;
+    font-family:"Microsoft Yahei","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size:14px;
 }
+@font-face {
+    font-family: 'Alakob';
+
+    src: url('/static/font/Pacifico.ttf');
+}
+
 .container{
-    /*width:1300px;*/
+    width:100%;
 }
 
 @media (min-width: 992px) {
@@ -28,4 +36,72 @@ body {
 
 .form-group{
     margin-top:20px;
+}
+.navbar-brand{
+    font-family: Alakob;
+    font-size: 24px;
+    line-height: 10px;
+}
+
+.grid-item{
+    width:300px;
+    min-height:100px;
+    margin-bottom: 20px;
+    float: left;
+
+
+}
+.grid-item img {
+    max-width: 100%;
+}
+.grid-relative{
+    display:none;
+    position:relative;
+}
+.grid-view{
+    position:absolute;
+    width:100%;
+    height:40px;
+    bottom:0px;
+    background-color:black;
+    opacity:0.4;
+}
+.grid-icon{
+    position:absolute;
+    bottom:0px;
+    height:40px;
+    color:white;
+    right:0px;
+    padding-right:20px;
+    line-height:40px;
+}
+
+.big-title{
+    line-height:150px;font-size:80px;font-family: Alakob;color:white
+}
+.big-desc{
+    line-height:30px;font-size:18px;font-family:'微软雅黑';
+}
+.big-blank{
+    margin-top:50px;
+}
+@media (min-width: 768px) {
+    .big-title{
+        line-height:200px;font-size:100px;font-family: Alakob;color:white
+    }
+    .big-desc{
+        line-height:40px;font-size:20px;font-family:'微软雅黑';
+    }
+    .big-blank{
+        margin-top:120px;
+    }
+}
+.middle-img{
+    width:100%;
+}
+.heart{
+    color:red;
+}
+.heart:hover{
+    color:darkred;
 }

@@ -3,23 +3,63 @@
 {% block content %}
 <div class="row">
 
-   <h1>{{article.title}}</h1>
-    <hr/>
+    <div class="col-md-8 col-xs-12">
+
+    <h2>{{article.title}}
+        <span style="font-size:16px;margin-left:20px;color:grey">
+        <span class="glyphicon glyphicon-heart" aria-hidden="true">&nbsp;{{article.like_num}}</span>
+            <span class="glyphicon glyphicon-eye-open" style="margin-left:20px;" aria-hidden="true">&nbsp;{{article.view_num}}</span>
+            </span>
+    </h2>
+    </div>
+
+
 
 
 </div>
+<hr/>
 <div class="row" style="text-align: center">
 
-    <div class="col-md-8">
-    <img class="" src="{{url_for('pic.getPic',source=article.origin,fileName=article.file_name,type='middle')}}" alt="{{article.title}}">
-        <h2 style="text-align: center">
-            <a href="{{url_for('pic.downloadPic',source=article.origin,fileName=article.file_name,id=article.id)}}">Download Origin</a>
-        </h2>
+    <div class="col-md-8 col-xs-12">
+    <img class="middle-img" src="{{url_for('pic.getPic',source=article.origin,fileName=article.file_name,type='middle')}}" alt="{{article.title}}">
+
     </div>
-    <div class="col-md-4" style="">
+    <div class="col-md-4 col-xs-12" style="">
         <h2>作者</h2>
         <h2><a href="{{url_for('user.profile',id=author.id)}}">{{author.nickname}}</a></h2>
         <p>{{author.description}}</p>
+
+    </div>
+</div>
+<div class="row container" style="position:fixed;bottom:0">
+
+    <div class="col-md-4 col-xs-12 col-md-offset-8" style="">
+        <div class="row">
+
+            <div class="col-md-3 col-xs-3">
+                <h2 style="text-align: center">
+                    <a class="heart" style="font-size:40px;"
+                       href="{{url_for('item.like',id=article.id)}}">
+                        {% if isLike %}
+                        <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+                        {% else %}
+                        <span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>
+                        {% endif %}
+                    </a>
+                </h2>
+
+            </div>
+            <div class="col-md-9 col-xs-9">
+
+                <h2 style="text-align: center">
+                    <a class="btn btn-success btn-lg btn-block"
+                       href="{{url_for('pic.downloadPic',source=article.origin,fileName=article.file_name,id=article.id)}}">
+                        下载高清大图
+                    </a>
+                </h2>
+            </div>
+
+        </div>
     </div>
 </div>
 {% endblock %}

@@ -4,8 +4,8 @@
 <div class="row" >
 
     <div class="col-lg-12" style="text-align:center">
-        <h1 style="line-height:200px;font-size:100px;font-family: Alakob;color:white">PicUp.me</h1>
-        <span style="line-height:40px;font-size:20px;font-family:'微软雅黑'">
+        <h1 class="big-title">PicUp.me</h1>
+        <span style="" class="big-desc">
             PicUp.me 是一个免费商业图片分享网站，这里收集了40余个网站超过30000副免费图片
             (<a href="https://creativecommons.org/publicdomain/zero/1.0/deed.zh" target="_blank">Creative Commons Zero</a>)。
             <br/>你可以下载这些高清大图，或对这些照片添加标签、收藏、分享</span>
@@ -14,39 +14,39 @@
 
 
 </div>
-<div style="margin-top:150px;"></div>
+<div class="big-blank" ></div>
 <nav id="page-nav">
     <a href="{{url_for('home.page',pageid=2)}}"></a>
 </nav>
 <div class="grid">
 {% for article in articles %}
 
-    <a class="grid-item-a" href="{{url_for('item.detail',id=article.id)}}">
+    <a class="grid-item-a" href="{{url_for('item.detail',id=article.id)}}" target="_blank">
     <div class="grid-item">
-        <img class="" src="{{url_for('pic.getPic',source=article.origin,fileName=article.file_name,type='small')}}" alt="{{article.title}}">
+        <img class="grid-img" src="{{url_for('static',filename='img/loading.jpg')}}"
+             v="{{url_for('pic.getPic',source=article.origin,fileName=article.file_name,type='small')}}" alt="{{article.title}}"
+             state=false >
+        <div class="grid-relative">
+        <div class="grid-view">
+
+        </div>
+        <div class="grid-icon">
+            <span style="font-size:16px;margin-left:20px;">
+            <span class="glyphicon glyphicon-heart" aria-hidden="true">&nbsp;{{article.like_num}}</span>
+            <span class="glyphicon glyphicon-eye-open" style="margin-left:20px;" aria-hidden="true">&nbsp;{{article.view_num}}</span>
+            </span>
+        </div>
+        </div>
     </div>
     </a>
 
 
 {% endfor %}
 </div>
+<div class="grid-loading" style="height:50px;text-align:center"></div>
 <style>
-@font-face {
-    font-family: 'Alakob';
-
-src: url('/static/font/Pacifico.ttf');
-}
-    .grid-item{
-        width:300px;
-        min-height:200px;
-        margin-bottom: 20px;
-        float: left;
 
 
-    }
-    .grid-item img {
-        max-width: 100%;
-    }
 
 </style>
 <script>

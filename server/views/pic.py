@@ -7,6 +7,7 @@ from models import *
 from flask_login import login_required
 from auth import current_user
 import os
+import time
 
 blueprint = Blueprint('pic', __name__)
 
@@ -16,6 +17,7 @@ def getPic(source,fileName,type):
     app.logger.debug(id)
     file, ext = os.path.splitext(fileName)
     result =None
+    # time.sleep(0.5)
     if type != 'orig':
         result = send_from_directory('pics/'+source, file+'_'+type+ext)
     else:
