@@ -4,6 +4,7 @@
 from flask import Blueprint, render_template, make_response,send_from_directory,jsonify,request
 from server import app,db
 from models import Article,Tag
+from flask_login import login_required
 from forms.forms import SearchForm
 import logging
 import os
@@ -33,6 +34,7 @@ def about():
     return render_template('about.html')
 
 @blueprint.route('/search',methods=['POST'])
+@login_required
 def search():
     key = request.form['key']
     app.logger.info("search key="+key + str(len(key)))
