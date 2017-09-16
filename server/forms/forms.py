@@ -33,9 +33,7 @@ class TagForm(FlaskForm):
     tag = StringField('tag', validators=[DataRequired(message=u"请输入标签")])
 
 
-    def validate_tag(self,field):
-        if Tag.query.filter_by(title=field.data,user_id=current_user.get_id()).first():
-            raise ValidationError(u'不能添加重复标签')
+
 
 class SearchForm(FlaskForm):
     key = StringField('key', validators=[DataRequired(message=u"请输入关键字")])

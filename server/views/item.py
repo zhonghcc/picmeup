@@ -70,31 +70,36 @@ def addTag(id):
     if form.validate_on_submit():
 
         user_id = current_user.get_id()
+        title = form.tag.data
 
-        tag = Tag()
-        tag.article_id=id
-        tag.title=form.tag.data
-        tag.user_id = user_id
-        tag.status = STATUS_NORMAL
+        equalOne = Tag.query.filter_by(user_id=user_id,article_id=id,title=title).first()
+        if equalOne is not None:
+            form.tag.errors.append(u"不能重复添加")
+        else:
 
-        user = User.query.get(user_id)
-        user.coin_num = user.coin_num + 1
+            tag = Tag()
+            tag.article_id=id
+            tag.title=form.tag.data
+            tag.user_id = user_id
+            tag.status = STATUS_NORMAL
 
-        coin = Coin()
-        coin.coin_num = 1
-        coin.article_id = id
-        coin.user_id = user_id
-        coin.direction = COIN_DIRECTION_DEBIT
-        coin.reason = COIN_REASON_ADDTAG
-        coin.ip = request.remote_addr
+            user = User.query.get(user_id)
+            user.coin_num = user.coin_num + 1
 
-        db.session.add(tag)
-        db.session.add(coin)
-        db.session.commit()
+            coin = Coin()
+            coin.coin_num = 1
+            coin.article_id = id
+            coin.user_id = user_id
+            coin.direction = COIN_DIRECTION_DEBIT
+            coin.reason = COIN_REASON_ADDTAG
+            coin.ip = request.remote_addr
+
+            db.session.add(tag)
+            db.session.add(coin)
+            db.session.commit()
 
 
-        flash(u"标签已提交")
-        app.logger.info(form.tag.data)
-        return itemDetail(id,form)
+            flash(u"标签已提交")
+            app.logger.info(form.tag.data)
 
     return itemDetail(id,form)
