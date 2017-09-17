@@ -22,7 +22,11 @@ def itemDetail(id,form=None):
     article = Article.query.get(id)
     author = User.query.get(article.author_id)
     tag = Tag.query.filter_by(article_id=id,status=STATUS_NORMAL).all()
+    keywords = ""
+    for t in tag:
+        keywords =  keywords + t.title + ','
 
+    keywords = keywords[0:-1]
     article.view_num = article.view_num+1
     view = ArticleView()
     view.article_id=id
@@ -38,7 +42,7 @@ def itemDetail(id,form=None):
 
     db.session.add(view)
     db.session.commit()
-    return render_template('item.html',article=article,author=author,isLike=isLike,tags=tag,form=form)
+    return render_template('item.html',article=article,author=author,isLike=isLike,tags=tag,form=form,keywords=keywords)
 
 @blueprint.route('/<id>/like')
 @login_required
