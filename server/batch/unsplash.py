@@ -5,6 +5,7 @@ import re
 import json
 import unsplash_id
 import time
+from sqlalchemy import or_
 
 
 class Unsplash(basespider.BaseSpider):
@@ -79,7 +80,7 @@ class Unsplash(basespider.BaseSpider):
             origName = obj['id']
             fileName = origName+'.jpg'
 
-            count = self.getDB().session.query(Article).filter(Article.origin_url == originUrl).count()
+            count = self.getDB().session.query(Article).filter(or_(Article.origin_url == originUrl,Article.file_name == fileName)).count()
             if count > 0:
                 return None
 
