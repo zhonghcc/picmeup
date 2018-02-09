@@ -30,6 +30,24 @@ def getPic(source,fileName,type):
 def downloadPic(source,id,fileName):
     file, ext = os.path.splitext(fileName)
     result =None
+    user_id = current_user.get_id()
+    downloaded = ArticleDownload.query.filter_by(user_id=user_id,article_id=id).count()
+    if downloaded <= 0:
+        user = User.query.get(user_id)
+        user.coin_num = user.coin_num - 1
+        if coin_num < 0 :
+            flash(u'下载需要消耗1金币，您的金币不足，给图片添加标签可赚取金币');
+    coin = Coin()
+    coin.coin_num = 1
+    coin.article_id = id
+    coin.user_id = user_id
+    coin.direction = COIN_DIRECTION_DEBIT
+    coin.reason = COIN_REASON_ADDTAG
+    coin.ip = request.remote_addr
+
+    db.session.add(tag)
+    db.session.add(coin)
+    db.session.commit()
 
     article = Article.query.get(id)
     article.download_num = article.download_num+1

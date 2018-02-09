@@ -103,7 +103,7 @@ def addTag(id):
             db.session.commit()
 
 
-            flash(u"标签已提交")
+            flash(u"标签已提交,金币+1")
             app.logger.info(form.tag.data)
 
     return itemDetail(id,form)
