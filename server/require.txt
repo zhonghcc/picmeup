@@ -7,4 +7,10 @@ Flask-WTF
 apscheduler
 alembic
 Image
+email-validator
+# CentOS
 #yum install MySQL-python
+# Ubuntu
+#apt-get install uwsgi
+#apt-get install uwsgi-plugin-python
+#apt-get install python-mysqldb
